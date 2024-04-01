@@ -1,0 +1,6 @@
+makefile
+*.log
+config.status
+config.cache
+*.o
+.DS_Store

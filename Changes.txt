@@ -1,0 +1,73 @@
+All the changes in the code made by Stanislav Sokolov are marked with
+"//SSS" comment.
+
+Common Files:
+	Macros 'min' and 'max' defined in common/mathlib.h conflict with
+	C++ definitions used by NETVIS. Changed names to 'Min' and 'Max'
+	and changed invocations throughout the tools.
+
+	Reintroduced onfig.h.in for use with the added configure
+	script. Solves the problem of STDC_HEADERS not being included.
+	The compile procedure is:
+	 ./configure
+	 make
+
+	Irritating warning of "No newline at the end of file" is fixed for
+	most of the files.
+
+CSG:
+	Added wadpath.cpp, wadcfg.cpp and autowad.cpp to the compile set
+	in make.inc
+
+BSP:
+	No changes
+
+VIS:
+	No essencial changes (except for Min and Max in flow.cpp and an
+	#ifndef to resovle a Netvis issue)
+
+
+RAD:
+	No changes (except for Min and Max in lightmap.cpp)
+
+
+NETVIS:
+	Class names and constants from CommonC++ are not in the correct
+	scope. Added 'ost::' to
+	in ZHLTThread.h:
+	 Thread and Event
+	in NetvisSession.h:
+	 TCPSocket, InetHostAddress, tpport_t, TCPStream, Mutex  
+	in SocketThreads.cpp:
+	 InetHostAddress, Socket
+	in NetvisSession.cpp:
+	 InetHostAddress, tpport_t, SOCKET_PENDING_ERROR,
+	 SOCKET_PENDING_INPUT, TCPSocket, Socket, SOCKET_BINDING_FAILED
+	in packet.cpp:
+	 Mutex, 
+
+	SOCKET_COMPLETION_IMMEDIATE was not defined any place, made ad
+	conditional define in NetvisSession.h
+
+	in make.inc changed library -lccxx to -lccgnu and added -ldl
+	(using CommonC++ 1.9.7)	
+
+	in make.inc added common/winding.cpp to the comple set
+
+	GetVisBlock(char*) is undefined from flow.cpp as vis.cpp is not
+	used in NETVIS. Worked around by adding '#ifndef ZHLT_NETVIS'
+	around BlockVis() in flow.cpp
+
+RIPENT:
+	Fixed malformed make.inc (for some reason only UNIX-style
+	newlines work here).
+
+	GetParamsFromEnt breaks RIPENT copilation as bspfile.cpp, which is
+	required by RIPENT make an unresolved reference to
+	GetParamsFromEnt. Solved by adding an IN_RIPENT define in
+	ripent/make.inc and adding two #ifndef IN_RIPENT in bspfile.cpp to
+	exclude GetParamsFromEnt. Can probably be done more elegantly...
+
+
+
+
