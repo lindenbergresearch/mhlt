@@ -3,9 +3,9 @@
 #endif
 
 #ifdef SYSTEM_WIN32
-#include <sys/stat.h>
-#include <io.h>
 #include <fcntl.h>
+#include <io.h>
+#include <sys/stat.h>
 #endif
 
 #ifdef SYSTEM_POSIX
@@ -22,12 +22,12 @@
 #endif
 #endif
 
-#include "cmdlib.h"
-#include "messages.h"
-#include "log.h"
-#include "mathtypes.h"
-#include "mathlib.h"
 #include "blockmem.h"
+#include "cmdlib.h"
+#include "log.h"
+#include "mathlib.h"
+#include "mathtypes.h"
+#include "messages.h"
 
 /*
  * ==============
@@ -36,14 +36,14 @@
  */
 
 time_t getfiletime(const char *const filename) {
-  time_t filetime = 0;
-  struct stat filestat;
+    time_t filetime = 0;
+    struct stat filestat;
 
-  if (stat(filename, &filestat)==0)
-    filetime = Max(filestat.st_mtime, filestat.st_ctime);
-  //SSS max -> Max
+    if (stat(filename, &filestat) == 0)
+        filetime = Max(filestat.st_mtime, filestat.st_ctime);
+    //SSS max -> Max
 
-  return filetime;
+    return filetime;
 }
 
 /*
@@ -52,13 +52,13 @@ time_t getfiletime(const char *const filename) {
  * ==============
  */
 long getfilesize(const char *const filename) {
-  long size = 0;
-  struct stat filestat;
+    long size = 0;
+    struct stat filestat;
 
-  if (stat(filename, &filestat)==0)
-    size = filestat.st_size;
+    if (stat(filename, &filestat) == 0)
+        size = filestat.st_size;
 
-  return size;
+    return size;
 }
 
 /*
@@ -67,32 +67,32 @@ long getfilesize(const char *const filename) {
  * ==============
  */
 long getfiledata(const char *const filename, char *buffer, const int buffersize) {
-  long size = 0;
-  int handle;
-  long start, end;
+    long size = 0;
+    int handle;
+    long start, end;
 
-  time(&start);
+    time(&start);
 
-  if ((handle = open(filename, O_RDONLY))!=-1) {
-    int bytesread;
+    if ((handle = open(filename, O_RDONLY)) != -1) {
+        int bytesread;
 
-    Log("%-20s Restoring [%-13s - ", "BuildVisMatrix:", filename);
-    //SSS min -> Min
-    while ((bytesread = read(handle, buffer, Min(32*1024, buffersize - size))) > 0) {
-      size += bytesread;
-      buffer += bytesread;
+        Log("%-20s Restoring [%-13s - ", "BuildVisMatrix:", filename);
+        //SSS min -> Min
+        while ((bytesread = read(handle, buffer, Min(32 * 1024, buffersize - size))) > 0) {
+            size += bytesread;
+            buffer += bytesread;
+        }
+        close(handle);
+        time(&end);
+        Log("%10.3fMB] (%d)\n", size / (1024.0 * 1024.0), end - start);
     }
-    close(handle);
-    time(&end);
-    Log("%10.3fMB] (%d)\n", size/(1024.0*1024.0), end - start);
-  }
 
-  if (buffersize!=size) {
-    Warning("Invalid file [%s] found.  File will be rebuilt!\n", filename);
-    unlink(filename);
-  }
+    if (buffersize != size) {
+        Warning("Invalid file [%s] found.  File will be rebuilt!\n", filename);
+        unlink(filename);
+    }
 
-  return size;
+    return size;
 }
 
 /*
@@ -101,15 +101,15 @@ long getfiledata(const char *const filename, char *buffer, const int buffersize)
  * ================
  */
 int q_filelength(FILE *f) {
-  int pos;
-  int end;
+    int pos;
+    int end;
 
-  pos = ftell(f);
-  fseek(f, 0, SEEK_END);
-  end = ftell(f);
-  fseek(f, pos, SEEK_SET);
+    pos = ftell(f);
+    fseek(f, 0, SEEK_END);
+    end = ftell(f);
+    fseek(f, pos, SEEK_SET);
 
-  return end;
+    return end;
 }
 
 /*
@@ -118,50 +118,50 @@ int q_filelength(FILE *f) {
  * ================
  */
 bool q_exists(const char *const filename) {
-  FILE *f;
+    FILE *f;
 
-  f = fopen(filename, "rb");
+    f = fopen(filename, "rb");
 
-  if (!f) {
-    IfDebug(Developer(DEVELOPER_LEVEL_SPAM, "Checking for existance of file %s (failed)\n", filename));
-    return false;
-  } else {
-    fclose(f);
-    IfDebug(Developer(DEVELOPER_LEVEL_SPAM, "Checking for existance of file %s (success)\n", filename));
-    return true;
-  }
+    if (!f) {
+        IfDebug(Developer(DEVELOPER_LEVEL_SPAM, "Checking for existance of file %s (failed)\n", filename));
+        return false;
+    } else {
+        fclose(f);
+        IfDebug(Developer(DEVELOPER_LEVEL_SPAM, "Checking for existance of file %s (success)\n", filename));
+        return true;
+    }
 }
 
 FILE *SafeOpenWrite(const char *const filename) {
-  FILE *f;
+    FILE *f;
 
-  f = fopen(filename, "wb");
+    f = fopen(filename, "wb");
 
-  if (!f)
-    Error("Error opening %s: %s", filename, strerror(errno));
+    if (!f)
+        Error("Error opening %s: %s", filename, strerror(errno));
 
-  return f;
+    return f;
 }
 
 FILE *SafeOpenRead(const char *const filename) {
-  FILE *f;
+    FILE *f;
 
-  f = fopen(filename, "rb");
+    f = fopen(filename, "rb");
 
-  if (!f)
-    Error("Error opening %s: %s", filename, strerror(errno));
+    if (!f)
+        Error("Error opening %s: %s", filename, strerror(errno));
 
-  return f;
+    return f;
 }
 
 void SafeRead(FILE *f, void *buffer, int count) {
-  if (fread(buffer, 1, count, f)!=(size_t) count)
-    Error("File read failure");
+    if (fread(buffer, 1, count, f) != (size_t) count)
+        Error("File read failure");
 }
 
 void SafeWrite(FILE *f, const void *const buffer, int count) {
-  if (fwrite(buffer, 1, count, f)!=(size_t) count)
-    Error("File read failure");
+    if (fwrite(buffer, 1, count, f) != (size_t) count)
+        Error("File read failure");
 }
 
 /*
@@ -170,18 +170,18 @@ void SafeWrite(FILE *f, const void *const buffer, int count) {
  * ==============
  */
 int LoadFile(const char *const filename, char **bufferptr) {
-  FILE *f;
-  int length;
-  char *buffer;
+    FILE *f;
+    int length;
+    char *buffer;
 
-  f = SafeOpenRead(filename);
-  length = q_filelength(f);
-  buffer = (char *) Alloc(length + 1);
-  SafeRead(f, buffer, length);
-  fclose(f);
+    f = SafeOpenRead(filename);
+    length = q_filelength(f);
+    buffer = (char *) Alloc(length + 1);
+    SafeRead(f, buffer, length);
+    fclose(f);
 
-  *bufferptr = buffer;
-  return length;
+    *bufferptr = buffer;
+    return length;
 }
 
 /*
@@ -190,9 +190,9 @@ int LoadFile(const char *const filename, char **bufferptr) {
  * ==============
  */
 void SaveFile(const char *const filename, const void *const buffer, int count) {
-  FILE *f;
+    FILE *f;
 
-  f = SafeOpenWrite(filename);
-  SafeWrite(f, buffer, count);
-  fclose(f);
+    f = SafeOpenWrite(filename);
+    SafeWrite(f, buffer, count);
+    fclose(f);
 }

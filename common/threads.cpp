@@ -1,26 +1,26 @@
 #ifdef SYSTEM_WIN32
 #define WIN32_LEAN_AND_MEAN
-#include <windows.h>
 #include <malloc.h>
+#include <windows.h>
 #endif
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
 
-#include "cmdlib.h"
-#include "messages.h"
-#include "log.h"
-#include "threads.h"
 #include "blockmem.h"
+#include "cmdlib.h"
+#include "log.h"
+#include "messages.h"
+#include "threads.h"
 
 #ifdef SYSTEM_POSIX
 #ifdef HAVE_SYS_TIME_H
 #include <sys/time.h>
 #endif
 #ifdef HAVE_SYS_RESOURCE_H
-#include <sys/resource.h>
 #include <pthread.h>
+#include <sys/resource.h>
 #endif
 #ifdef HAVE_PTHREAD_H
 #include <pthread.h>
@@ -33,7 +33,7 @@
 q_threadpriority g_threadpriority = DEFAULT_THREAD_PRIORITY;
 
 #define THREADTIMES_SIZE 100
-#define THREADTIMES_SIZEf (float)(THREADTIMES_SIZE)
+#define THREADTIMES_SIZEf (float) (THREADTIMES_SIZE)
 
 static int dispatch = 0;
 static int workcount = 0;
@@ -44,95 +44,86 @@ static double threadstart = 0;
 static double threadtimes[THREADTIMES_SIZE];
 
 int GetThreadWork() {
-  int r, f, i;
-  double ct, finish, finish2, finish3;
+    int r, f, i;
+    double ct, finish, finish2, finish3;
 
-  ThreadLock();
+    ThreadLock();
 
-  if (dispatch==0) {
-    oldf = 0;
-  }
-
-  if (dispatch > workcount) {
-    Developer(DEVELOPER_LEVEL_ERROR, "dispatch > workcount!!!\n");
-    ThreadUnlock();
-    return -1;
-  }
-  if (dispatch==workcount) {
-    Developer(DEVELOPER_LEVEL_MESSAGE, "dispatch == workcount, work is complete\n");
-    ThreadUnlock();
-    return -1;
-  }
-  if (dispatch < 0) {
-    Developer(DEVELOPER_LEVEL_ERROR, "negative dispatch!!!\n");
-    ThreadUnlock();
-    return -1;
-  }
-
-  f = THREADTIMES_SIZE*dispatch/workcount;
-  if (pacifier) {
-    printf("\r%6d /%6d", dispatch, workcount);
-#ifdef ZHLT_PROGRESSFILE // AJM
-    if (g_progressfile)
-    {
-
-
+    if (dispatch == 0) {
+        oldf = 0;
     }
-#endif
 
-    if (f!=oldf) {
-      ct = I_FloatTime();
-      /* Fill in current time for threadtimes record */
-      for (i = oldf; i <= f; i++) {
-        if (threadtimes[i] < 1) {
-          threadtimes[i] = ct;
-        }
-      }
-      oldf = f;
-
-      if (f > 10) {
-        finish = (ct - threadtimes[0])*(THREADTIMES_SIZEf - f)/f;
-        finish2 = 10.0*(ct - threadtimes[f - 10])*(THREADTIMES_SIZEf - f)/THREADTIMES_SIZEf;
-        finish3 = THREADTIMES_SIZEf*(ct - threadtimes[f - 1])*(THREADTIMES_SIZEf - f)/THREADTIMES_SIZEf;
-
-        if (finish > 1.0) {
-          printf("  (%d%%: est. time to completion %ld/%ld/%ld secs)   ", f, (long) (finish), (long) (finish2),
-                 (long) (finish3));
-#ifdef ZHLT_PROGRESSFILE // AJM
-          if (g_progressfile)
-          {
-
-
-          }
-#endif
-        } else {
-          printf("  (%d%%: est. time to completion <1 sec)   ", f);
-
-#ifdef ZHLT_PROGRESSFILE // AJM
-          if (g_progressfile)
-          {
-
-
-          }
-#endif
-        }
-      }
+    if (dispatch > workcount) {
+        Developer(DEVELOPER_LEVEL_ERROR, "dispatch > workcount!!!\n");
+        ThreadUnlock();
+        return -1;
     }
-  } else {
-    if (f!=oldf) {
-      oldf = f;
-      switch (f) {
-        case 10:
-        case 20:
-        case 30:
-        case 40:
-        case 50:
-        case 60:
-        case 70:
-        case 80:
-        case 90:
-        case 100:
-/*
+    if (dispatch == workcount) {
+        Developer(DEVELOPER_LEVEL_MESSAGE, "dispatch == workcount, work is complete\n");
+        ThreadUnlock();
+        return -1;
+    }
+    if (dispatch < 0) {
+        Developer(DEVELOPER_LEVEL_ERROR, "negative dispatch!!!\n");
+        ThreadUnlock();
+        return -1;
+    }
+
+    f = THREADTIMES_SIZE * dispatch / workcount;
+    if (pacifier) {
+        printf("\r%6d /%6d", dispatch, workcount);
+#ifdef ZHLT_PROGRESSFILE// AJM
+        if (g_progressfile) {
+        }
+#endif
+
+        if (f != oldf) {
+            ct = I_FloatTime();
+            /* Fill in current time for threadtimes record */
+            for (i = oldf; i <= f; i++) {
+                if (threadtimes[i] < 1) {
+                    threadtimes[i] = ct;
+                }
+            }
+            oldf = f;
+
+            if (f > 10) {
+                finish = (ct - threadtimes[0]) * (THREADTIMES_SIZEf - f) / f;
+                finish2 = 10.0 * (ct - threadtimes[f - 10]) * (THREADTIMES_SIZEf - f) / THREADTIMES_SIZEf;
+                finish3 = THREADTIMES_SIZEf * (ct - threadtimes[f - 1]) * (THREADTIMES_SIZEf - f) / THREADTIMES_SIZEf;
+
+                if (finish > 1.0) {
+                    printf("  (%d%%: est. time to completion %ld/%ld/%ld secs)   ", f, (long) (finish), (long) (finish2),
+                           (long) (finish3));
+#ifdef ZHLT_PROGRESSFILE// AJM
+                    if (g_progressfile) {
+                    }
+#endif
+                } else {
+                    printf("  (%d%%: est. time to completion <1 sec)   ", f);
+
+#ifdef ZHLT_PROGRESSFILE// AJM
+                    if (g_progressfile) {
+                    }
+#endif
+                }
+            }
+        }
+    } else {
+        if (f != oldf) {
+            oldf = f;
+            switch (f) {
+                case 10:
+                case 20:
+                case 30:
+                case 40:
+                case 50:
+                case 60:
+                case 70:
+                case 80:
+                case 90:
+                case 100:
+                    /*
             case 5:
             case 15:
             case 25:
@@ -144,31 +135,32 @@ int GetThreadWork() {
             case 85:
             case 95:
 */
-          printf("%d%%...", f);
-        default:break;
-      }
+                    printf("%d%%...", f);
+                default:
+                    break;
+            }
+        }
     }
-  }
 
-  r = dispatch;
-  dispatch++;
+    r = dispatch;
+    dispatch++;
 
-  ThreadUnlock();
-  return r;
+    ThreadUnlock();
+    return r;
 }
 
 q_threadfunction workfunction;
 
 #ifdef SYSTEM_WIN32
 #pragma warning(push)
-#pragma warning(disable: 4100)                             // unreferenced formal parameter
+#pragma warning(disable : 4100)// unreferenced formal parameter
 #endif
 static void ThreadWorkerFunction(int unused) {
-  int work;
+    int work;
 
-  while ((work = GetThreadWork())!=-1) {
-    workfunction(work);
-  }
+    while ((work = GetThreadWork()) != -1) {
+        workfunction(work);
+    }
 }
 
 #ifdef SYSTEM_WIN32
@@ -176,8 +168,8 @@ static void ThreadWorkerFunction(int unused) {
 #endif
 
 void RunThreadsOnIndividual(int workcnt, bool showpacifier, q_threadfunction func) {
-  workfunction = func;
-  RunThreadsOn(workcnt, showpacifier, ThreadWorkerFunction);
+    workfunction = func;
+    RunThreadsOn(workcnt, showpacifier, ThreadWorkerFunction);
 }
 
 #ifndef SINGLE_THREADED
@@ -187,33 +179,31 @@ void RunThreadsOnIndividual(int workcnt, bool showpacifier, q_threadfunction fun
 =*/
 #ifdef SYSTEM_WIN32
 
-#define	USED
+#define USED
 #include <windows.h>
 
-int             g_numthreads = DEFAULT_NUMTHREADS;
+int g_numthreads = DEFAULT_NUMTHREADS;
 static CRITICAL_SECTION crit;
-static int      enter;
+static int enter;
 
-void            ThreadSetPriority(q_threadpriority type)
-{
-    int             val;
+void ThreadSetPriority(q_threadpriority type) {
+    int val;
 
     g_threadpriority = type;
 
-    switch (g_threadpriority)
-    {
-    case eThreadPriorityLow:
-        val = IDLE_PRIORITY_CLASS;
-        break;
+    switch (g_threadpriority) {
+        case eThreadPriorityLow:
+            val = IDLE_PRIORITY_CLASS;
+            break;
 
-    case eThreadPriorityHigh:
-        val = HIGH_PRIORITY_CLASS;
-        break;
+        case eThreadPriorityHigh:
+            val = HIGH_PRIORITY_CLASS;
+            break;
 
-    case eThreadPriorityNormal:
-    default:
-        val = NORMAL_PRIORITY_CLASS;
-        break;
+        case eThreadPriorityNormal:
+        default:
+            val = NORMAL_PRIORITY_CLASS;
+            break;
     }
 
     SetPriorityClass(GetCurrentProcess(), val);
@@ -243,43 +233,35 @@ static void     AdjustPriority(HANDLE hThread)
 }
 #endif
 
-void            ThreadSetDefault()
-{
-    SYSTEM_INFO     info;
+void ThreadSetDefault() {
+    SYSTEM_INFO info;
 
-    if (g_numthreads == -1)                                // not set manually
+    if (g_numthreads == -1)// not set manually
     {
         GetSystemInfo(&info);
         g_numthreads = info.dwNumberOfProcessors;
-        if (g_numthreads < 1 || g_numthreads > 32)
-        {
+        if (g_numthreads < 1 || g_numthreads > 32) {
             g_numthreads = 1;
         }
     }
 }
 
-void            ThreadLock()
-{
-    if (!threaded)
-    {
+void ThreadLock() {
+    if (!threaded) {
         return;
     }
     EnterCriticalSection(&crit);
-    if (enter)
-    {
+    if (enter) {
         Warning("Recursive ThreadLock\n");
     }
     enter++;
 }
 
-void            ThreadUnlock()
-{
-    if (!threaded)
-    {
+void ThreadUnlock() {
+    if (!threaded) {
         return;
     }
-    if (!enter)
-    {
+    if (!enter) {
         Error("ThreadUnlock without lock\n");
     }
     enter--;
@@ -288,34 +270,29 @@ void            ThreadUnlock()
 
 q_threadfunction q_entry;
 
-static DWORD WINAPI ThreadEntryStub(LPVOID pParam)
-{
-    q_entry((int)pParam);
+static DWORD WINAPI ThreadEntryStub(LPVOID pParam) {
+    q_entry((int) pParam);
     return 0;
 }
 
-void            threads_InitCrit()
-{
+void threads_InitCrit() {
     InitializeCriticalSection(&crit);
     threaded = true;
 }
 
-void            threads_UninitCrit()
-{
+void threads_UninitCrit() {
     DeleteCriticalSection(&crit);
 }
 
-void            RunThreadsOn(int workcnt, bool showpacifier, q_threadfunction func)
-{
-    DWORD           threadid[MAX_THREADS];
-    HANDLE          threadhandle[MAX_THREADS];
-    int             i;
-    double          start, end;
+void RunThreadsOn(int workcnt, bool showpacifier, q_threadfunction func) {
+    DWORD threadid[MAX_THREADS];
+    HANDLE threadhandle[MAX_THREADS];
+    int i;
+    double start, end;
 
     threadstart = I_FloatTime();
     start = threadstart;
-    for (i = 0; i < THREADTIMES_SIZE; i++)
-    {
+    for (i = 0; i < THREADTIMES_SIZE; i++) {
         threadtimes[i] = 0;
     }
     dispatch = 0;
@@ -325,8 +302,7 @@ void            RunThreadsOn(int workcnt, bool showpacifier, q_threadfunction fu
     threaded = true;
     q_entry = func;
 
-    if (workcount < dispatch)
-    {
+    if (workcount < dispatch) {
         Developer(DEVELOPER_LEVEL_ERROR, "RunThreadsOn: Workcount(%i) < dispatch(%i)\n", workcount, dispatch);
     }
     hlassume(workcount >= dispatch, assume_BadWorkcount);
@@ -335,27 +311,24 @@ void            RunThreadsOn(int workcnt, bool showpacifier, q_threadfunction fu
     // Create all the threads (suspended)
     //
     threads_InitCrit();
-    for (i = 0; i < g_numthreads; i++)
-    {
-        HANDLE          hThread = CreateThread(NULL,
-                                               0,
-                                               (LPTHREAD_START_ROUTINE) ThreadEntryStub,
-                                               (LPVOID) i,
-                                               CREATE_SUSPENDED,
-                                               &threadid[i]);
+    for (i = 0; i < g_numthreads; i++) {
+        HANDLE hThread = CreateThread(NULL,
+                                      0,
+                                      (LPTHREAD_START_ROUTINE) ThreadEntryStub,
+                                      (LPVOID) i,
+                                      CREATE_SUSPENDED,
+                                      &threadid[i]);
 
-        if (hThread != NULL)
-        {
+        if (hThread != NULL) {
             threadhandle[i] = hThread;
-        }
-        else
-        {
-            LPVOID          lpMsgBuf;
+        } else {
+            LPVOID lpMsgBuf;
 
             FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-                          FORMAT_MESSAGE_FROM_SYSTEM |
-                          FORMAT_MESSAGE_IGNORE_INSERTS, NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),       // Default language
-                          (LPTSTR) & lpMsgBuf, 0, NULL);
+                                  FORMAT_MESSAGE_FROM_SYSTEM |
+                                  FORMAT_MESSAGE_IGNORE_INSERTS,
+                          NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),// Default language
+                          (LPTSTR) &lpMsgBuf, 0, NULL);
             // Process any inserts in lpMsgBuf.
             // ...
             // Display the string.
@@ -368,16 +341,15 @@ void            RunThreadsOn(int workcnt, bool showpacifier, q_threadfunction fu
     CheckFatal();
 
     // Start all the threads
-    for (i = 0; i < g_numthreads; i++)
-    {
-        if (ResumeThread(threadhandle[i]) == 0xFFFFFFFF)
-        {
-            LPVOID          lpMsgBuf;
+    for (i = 0; i < g_numthreads; i++) {
+        if (ResumeThread(threadhandle[i]) == 0xFFFFFFFF) {
+            LPVOID lpMsgBuf;
 
             FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-                          FORMAT_MESSAGE_FROM_SYSTEM |
-                          FORMAT_MESSAGE_IGNORE_INSERTS, NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),       // Default language
-                          (LPTSTR) & lpMsgBuf, 0, NULL);
+                                  FORMAT_MESSAGE_FROM_SYSTEM |
+                                  FORMAT_MESSAGE_IGNORE_INSERTS,
+                          NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),// Default language
+                          (LPTSTR) &lpMsgBuf, 0, NULL);
             // Process any inserts in lpMsgBuf.
             // ...
             // Display the string.
@@ -390,8 +362,7 @@ void            RunThreadsOn(int workcnt, bool showpacifier, q_threadfunction fu
     CheckFatal();
 
     // Wait for threads to complete
-    for (i = 0; i < g_numthreads; i++)
-    {
+    for (i = 0; i < g_numthreads; i++) {
         Developer(DEVELOPER_LEVEL_MESSAGE, "WaitForSingleObject on thread #%d [%08X]\n", i, threadhandle[i]);
         WaitForSingleObject(threadhandle[i], INFINITE);
     }
@@ -400,8 +371,7 @@ void            RunThreadsOn(int workcnt, bool showpacifier, q_threadfunction fu
     q_entry = NULL;
     threaded = false;
     end = I_FloatTime();
-    if (pacifier)
-    {
+    if (pacifier) {
         printf("\r%60s\r", "");
     }
     Log(" (%.2f seconds)\n", end - start);
@@ -418,91 +388,77 @@ void            RunThreadsOn(int workcnt, bool showpacifier, q_threadfunction fu
 =*/
 #ifdef SYSTEM_POSIX
 
-#define	USED
+#define USED
 
-int             g_numthreads = DEFAULT_NUMTHREADS;
+int g_numthreads = DEFAULT_NUMTHREADS;
 
-void            ThreadSetPriority(q_threadpriority type)
-{
-    int             val;
+void ThreadSetPriority(q_threadpriority type) {
+    int val;
 
     g_threadpriority = type;
 
     // Currently in Linux land users are incapable of raising the priority level of their processes
-    // Unless you are root -high is useless . . . 
-    switch (g_threadpriority)
-    {
-    case eThreadPriorityLow:
-        val = PRIO_MAX;
-        break;
+    // Unless you are root -high is useless . . .
+    switch (g_threadpriority) {
+        case eThreadPriorityLow:
+            val = PRIO_MAX;
+            break;
 
-    case eThreadPriorityHigh:
-        val = PRIO_MIN;
-        break;
+        case eThreadPriorityHigh:
+            val = PRIO_MIN;
+            break;
 
-    case eThreadPriorityNormal:
-    default:
-        val = 0;
-        break;
+        case eThreadPriorityNormal:
+        default:
+            val = 0;
+            break;
     }
     setpriority(PRIO_PROCESS, 0, val);
 }
 
-void            ThreadSetDefault()
-{
-    if (g_numthreads == -1)
-    {
+void ThreadSetDefault() {
+    if (g_numthreads == -1) {
         g_numthreads = 1;
     }
 }
 
-typedef void*    pthread_addr_t;
-pthread_mutex_t* my_mutex;
+typedef void *pthread_addr_t;
+pthread_mutex_t *my_mutex;
 
-void            ThreadLock()
-{
-    if (my_mutex)
-    {
+void ThreadLock() {
+    if (my_mutex) {
         pthread_mutex_lock(my_mutex);
     }
 }
 
-void            ThreadUnlock()
-{
-    if (my_mutex)
-    {
+void ThreadUnlock() {
+    if (my_mutex) {
         pthread_mutex_unlock(my_mutex);
     }
 }
 
 q_threadfunction q_entry;
 
-static void*    CDECL ThreadEntryStub(void* pParam)
-{
-    q_entry((int)pParam);
+static void *CDECL ThreadEntryStub(void *pParam) {
+    q_entry((int) pParam);
     return NULL;
 }
 
-void            threads_InitCrit()
-{
+void threads_InitCrit() {
     pthread_mutexattr_t mattrib;
 
-    if (!my_mutex)
-    {
-        my_mutex = (pthread_mutex_t*)Alloc(sizeof(*my_mutex));
-        if (pthread_mutexattr_init(&mattrib) == -1)
-        {
+    if (!my_mutex) {
+        my_mutex = (pthread_mutex_t *) Alloc(sizeof(*my_mutex));
+        if (pthread_mutexattr_init(&mattrib) == -1) {
             Error("pthread_mutex_attr_init failed");
         }
-        if (pthread_mutex_init(my_mutex, &mattrib) == -1)
-        {
+        if (pthread_mutex_init(my_mutex, &mattrib) == -1) {
             Error("pthread_mutex_init failed");
         }
     }
 }
 
-void            threads_UninitCrit()
-{
+void threads_UninitCrit() {
     Free(my_mutex);
     my_mutex = NULL;
 }
@@ -512,18 +468,16 @@ void            threads_UninitCrit()
  * RunThreadsOn
  * =============
  */
-void            RunThreadsOn(int workcnt, bool showpacifier, q_threadfunction func)
-{
-    int             i;
-    pthread_t       work_threads[MAX_THREADS];
-    pthread_addr_t  status;
-    pthread_attr_t  attrib;
-    double          start, end;
+void RunThreadsOn(int workcnt, bool showpacifier, q_threadfunction func) {
+    int i;
+    pthread_t work_threads[MAX_THREADS];
+    pthread_addr_t status;
+    pthread_attr_t attrib;
+    double start, end;
 
     threadstart = I_FloatTime();
     start = threadstart;
-    for (i = 0; i < THREADTIMES_SIZE; i++)
-    {
+    for (i = 0; i < THREADTIMES_SIZE; i++) {
         threadtimes[i] = 0;
     }
 
@@ -534,36 +488,29 @@ void            RunThreadsOn(int workcnt, bool showpacifier, q_threadfunction fu
     threaded = true;
     q_entry = func;
 
-    if (pacifier)
-    {
+    if (pacifier) {
         setbuf(stdout, NULL);
     }
 
     threads_InitCrit();
 
-    if (pthread_attr_init(&attrib) == -1)
-    {
+    if (pthread_attr_init(&attrib) == -1) {
         Error("pthread_attr_init failed");
     }
 #ifdef _POSIX_THREAD_ATTR_STACKSIZE
-    if (pthread_attr_setstacksize(&attrib, 0x400000) == -1)
-    {
+    if (pthread_attr_setstacksize(&attrib, 0x400000) == -1) {
         Error("pthread_attr_setstacksize failed");
     }
 #endif
 
-    for (i = 0; i < g_numthreads; i++)
-    {
-        if (pthread_create(&work_threads[i], &attrib, ThreadEntryStub, (void*)i) == -1)
-        {
+    for (i = 0; i < g_numthreads; i++) {
+        if (pthread_create(&work_threads[i], &attrib, ThreadEntryStub, (void *) i) == -1) {
             Error("pthread_create failed");
         }
     }
 
-    for (i = 0; i < g_numthreads; i++)
-    {
-        if (pthread_join(work_threads[i], &status) == -1)
-        {
+    for (i = 0; i < g_numthreads; i++) {
+        if (pthread_join(work_threads[i], &status) == -1) {
             Error("pthread_join failed");
         }
     }
@@ -574,8 +521,7 @@ void            RunThreadsOn(int workcnt, bool showpacifier, q_threadfunction fu
     threaded = false;
 
     end = I_FloatTime();
-    if (pacifier)
-    {
+    if (pacifier) {
         printf("\r%60s\r", "");
     }
 
@@ -607,7 +553,7 @@ void threads_UninitCrit() {
 }
 
 void ThreadSetDefault() {
-  g_numthreads = 1;
+    g_numthreads = 1;
 }
 
 void ThreadLock() {
@@ -617,31 +563,31 @@ void ThreadUnlock() {
 }
 
 void RunThreadsOn(int workcnt, bool showpacifier, q_threadfunction func) {
-  int i;
-  double start, end;
+    int i;
+    double start, end;
 
-  dispatch = 0;
-  workcount = workcnt;
-  oldf = -1;
-  pacifier = showpacifier;
-  threadstart = I_FloatTime();
-  start = threadstart;
-  for (i = 0; i < THREADTIMES_SIZE; i++) {
-    threadtimes[i] = 0.0;
-  }
+    dispatch = 0;
+    workcount = workcnt;
+    oldf = -1;
+    pacifier = showpacifier;
+    threadstart = I_FloatTime();
+    start = threadstart;
+    for (i = 0; i < THREADTIMES_SIZE; i++) {
+        threadtimes[i] = 0.0;
+    }
 
-  if (pacifier) {
-    setbuf(stdout, NULL);
-  }
-  func(0);
+    if (pacifier) {
+        setbuf(stdout, NULL);
+    }
+    func(0);
 
-  end = I_FloatTime();
+    end = I_FloatTime();
 
-  if (pacifier) {
-    printf("\r%60s\r", "");
-  }
+    if (pacifier) {
+        printf("\r%60s\r", "");
+    }
 
-  Log(" (%.2f seconds)\n", end - start);
+    Log(" (%.2f seconds)\n", end - start);
 }
 
 #endif

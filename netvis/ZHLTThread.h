@@ -4,22 +4,22 @@
 #include "cc++/thread.h"
 
 class ZHLTThread : public ost::Thread
-  //SSS
+//SSS
 {
- public:
-  ZHLTThread() {}
-  virtual ~ZHLTThread() {
-  }
+public:
+    ZHLTThread() {}
+    virtual ~ZHLTThread() {
+    }
 
-  inline bool _zhlt_isCancelled() {
-    return m_Cancelled.Wait(0);
-  }
-  inline bool _zhlt_isCancelled(timeout_t timer) {
-    return m_Cancelled.Wait(timer);
-  }
+    inline bool _zhlt_isCancelled() {
+        return m_Cancelled.Wait(0);
+    }
+    inline bool _zhlt_isCancelled(timeout_t timer) {
+        return m_Cancelled.Wait(timer);
+    }
 
-  ost::Event m_Cancelled;
-  //SSS
+    ost::Event m_Cancelled;
+    //SSS
 };
 
 #endif//ZHLTTHREAD_H__

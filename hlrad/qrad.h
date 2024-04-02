@@ -5,24 +5,23 @@
 #pragma once
 #endif
 
-#include "cmdlib.h"
-#include "messages.h"
-#include "win32fix.h"
-#include "log.h"
-#include "hlassert.h"
-#include "mathlib.h"
+#include "blockmem.h"
 #include "bspfile.h"
-#include "winding.h"
+#include "cmdlib.h"
+#include "filelib.h"
+#include "hlassert.h"
+#include "log.h"
+#include "mathlib.h"
+#include "messages.h"
 #include "scriplib.h"
 #include "threads.h"
-#include "blockmem.h"
-#include "filelib.h"
+#include "win32fix.h"
 #include "winding.h"
 
 #ifdef SYSTEM_WIN32
-#pragma warning(disable: 4142 4028)
+#pragma warning(disable : 4142 4028)
 #include <io.h>
-#pragma warning(default: 4142 4028)
+#pragma warning(default : 4142 4028)
 #endif
 
 #ifdef HAVE_UNISTD_H
@@ -41,26 +40,26 @@
 #include <direct.h>
 #endif
 
-#define DEFAULT_LERP_ENABLED        true
-#define DEFAULT_FADE                1.0
-#define DEFAULT_FALLOFF             2
-#define DEFAULT_BOUNCE              1
-#define DEFAULT_DUMPPATCHES         false
-#define DEFAULT_AMBIENT_RED         0.0
-#define DEFAULT_AMBIENT_GREEN       0.0
-#define DEFAULT_AMBIENT_BLUE        0.0
-#define DEFAULT_MAXLIGHT            256.0
-#define DEFAULT_TEXSCALE            true
-#define DEFAULT_CHOP                64.0
-#define DEFAULT_TEXCHOP             32.0
-#define DEFAULT_LIGHTSCALE          1.0
-#define DEFAULT_DLIGHT_THRESHOLD    25.0
-#define DEFAULT_DLIGHT_SCALE        2.0
-#define DEFAULT_SMOOTHING_VALUE     50.0
-#define DEFAULT_INCREMENTAL         false
+#define DEFAULT_LERP_ENABLED true
+#define DEFAULT_FADE 1.0
+#define DEFAULT_FALLOFF 2
+#define DEFAULT_BOUNCE 1
+#define DEFAULT_DUMPPATCHES false
+#define DEFAULT_AMBIENT_RED 0.0
+#define DEFAULT_AMBIENT_GREEN 0.0
+#define DEFAULT_AMBIENT_BLUE 0.0
+#define DEFAULT_MAXLIGHT 256.0
+#define DEFAULT_TEXSCALE true
+#define DEFAULT_CHOP 64.0
+#define DEFAULT_TEXCHOP 32.0
+#define DEFAULT_LIGHTSCALE 1.0
+#define DEFAULT_DLIGHT_THRESHOLD 25.0
+#define DEFAULT_DLIGHT_SCALE 2.0
+#define DEFAULT_SMOOTHING_VALUE 50.0
+#define DEFAULT_INCREMENTAL false
 
-#ifdef ZHLT_PROGRESSFILE // AJM
-#define DEFAULT_PROGRESSFILE NULL // progress file is only used if g_progressfile is non-null
+#ifdef ZHLT_PROGRESSFILE         // AJM
+#define DEFAULT_PROGRESSFILE NULL// progress file is only used if g_progressfile is non-null
 #endif
 
 // ------------------------------------------------------------------------
@@ -68,53 +67,53 @@
 
 // superseded by DEFAULT_COLOUR_LIGHTSCALE_*
 #ifndef HLRAD_WHOME
-#define DEFAULT_LIGHTSCALE          1.0
+#define DEFAULT_LIGHTSCALE 1.0
 #endif
 
 // superseded by DEFAULT_COLOUR_GAMMA_*
 #ifndef HLRAD_WHOME
-#define DEFAULT_GAMMA               0.5
+#define DEFAULT_GAMMA 0.5
 #endif
 // ------------------------------------------------------------------------
 
-#define DEFAULT_INDIRECT_SUN        1.0
-#define DEFAULT_EXTRA               false
-#define DEFAULT_SKY_LIGHTING_FIX    true
-#define DEFAULT_CIRCUS              false
-#define DEFAULT_CORING              1.0
-#define DEFAULT_SUBDIVIDE           true
-#define DEFAULT_CHART               false
-#define DEFAULT_SKYCLIP             true
-#define DEFAULT_INFO                true
-#define DEFAULT_ALLOW_OPAQUES       true
+#define DEFAULT_INDIRECT_SUN 1.0
+#define DEFAULT_EXTRA false
+#define DEFAULT_SKY_LIGHTING_FIX true
+#define DEFAULT_CIRCUS false
+#define DEFAULT_CORING 1.0
+#define DEFAULT_SUBDIVIDE true
+#define DEFAULT_CHART false
+#define DEFAULT_SKYCLIP true
+#define DEFAULT_INFO true
+#define DEFAULT_ALLOW_OPAQUES true
 
 // ------------------------------------------------------------------------
 // Changes by Adam Foster - afoster@compsoc.man.ac.uk
 #ifdef HLRAD_WHOME
 
-#define DEFAULT_COLOUR_GAMMA_RED        0.5
-#define DEFAULT_COLOUR_GAMMA_GREEN        0.5
-#define DEFAULT_COLOUR_GAMMA_BLUE        0.5
+#define DEFAULT_COLOUR_GAMMA_RED 0.5
+#define DEFAULT_COLOUR_GAMMA_GREEN 0.5
+#define DEFAULT_COLOUR_GAMMA_BLUE 0.5
 
-#define DEFAULT_COLOUR_LIGHTSCALE_RED        1.0
-#define DEFAULT_COLOUR_LIGHTSCALE_GREEN        1.0
-#define DEFAULT_COLOUR_LIGHTSCALE_BLUE        1.0
+#define DEFAULT_COLOUR_LIGHTSCALE_RED 1.0
+#define DEFAULT_COLOUR_LIGHTSCALE_GREEN 1.0
+#define DEFAULT_COLOUR_LIGHTSCALE_BLUE 1.0
 
-#define DEFAULT_COLOUR_JITTER_HACK_RED        0.0
-#define DEFAULT_COLOUR_JITTER_HACK_GREEN    0.0
-#define DEFAULT_COLOUR_JITTER_HACK_BLUE        0.0
+#define DEFAULT_COLOUR_JITTER_HACK_RED 0.0
+#define DEFAULT_COLOUR_JITTER_HACK_GREEN 0.0
+#define DEFAULT_COLOUR_JITTER_HACK_BLUE 0.0
 
-#define DEFAULT_JITTER_HACK_RED            0.0
-#define DEFAULT_JITTER_HACK_GREEN        0.0
-#define DEFAULT_JITTER_HACK_BLUE        0.0
+#define DEFAULT_JITTER_HACK_RED 0.0
+#define DEFAULT_JITTER_HACK_GREEN 0.0
+#define DEFAULT_JITTER_HACK_BLUE 0.0
 
-#define DEFAULT_DIFFUSE_HACK            true
-#define DEFAULT_SPOTLIGHT_HACK            true
+#define DEFAULT_DIFFUSE_HACK true
+#define DEFAULT_SPOTLIGHT_HACK true
 
-#define DEFAULT_SOFTLIGHT_HACK_RED        0.0
-#define DEFAULT_SOFTLIGHT_HACK_GREEN        0.0
-#define DEFAULT_SOFTLIGHT_HACK_BLUE        0.0
-#define DEFAULT_SOFTLIGHT_HACK_DISTANCE    0.0
+#define DEFAULT_SOFTLIGHT_HACK_RED 0.0
+#define DEFAULT_SOFTLIGHT_HACK_GREEN 0.0
+#define DEFAULT_SOFTLIGHT_HACK_BLUE 0.0
+#define DEFAULT_SOFTLIGHT_HACK_DISTANCE 0.0
 
 #endif
 // ------------------------------------------------------------------------
@@ -134,20 +133,20 @@
 
 
 #ifdef SYSTEM_WIN32
-#define DEFAULT_ESTIMATE    false
+#define DEFAULT_ESTIMATE false
 #endif
 #ifdef SYSTEM_POSIX
-#define DEFAULT_ESTIMATE    true
+#define DEFAULT_ESTIMATE true
 #endif
 
 // Ideally matches what is in the FGD :)
-#define SPAWNFLAG_NOBLEEDADJUST    (1 << 0)
+#define SPAWNFLAG_NOBLEEDADJUST (1 << 0)
 
 // DEFAULT_HUNT_OFFSET is how many units in front of the plane to place the samples
 // Unit of '1' causes the 1 unit crate trick to cause extra shadows
 #define DEFAULT_HUNT_OFFSET 0.5
 // DEFAULT_HUNT_SIZE number of iterations (one based) of radial search in HuntForWorld
-#define DEFAULT_HUNT_SIZE   11
+#define DEFAULT_HUNT_SIZE 11
 // DEFAULT_HUNT_SCALE amount to grow from origin point per iteration of DEFAULT_HUNT_SIZE in HuntForWorld
 #define DEFAULT_HUNT_SCALE 0.1
 
@@ -159,47 +158,46 @@
 //
 
 typedef enum {
-  emit_surface,
-  emit_point,
-  emit_spotlight,
-  emit_skylight
-}
-    emittype_t;
+    emit_surface,
+    emit_point,
+    emit_spotlight,
+    emit_skylight
+} emittype_t;
 
 typedef struct directlight_s {
-  struct directlight_s *next;
-  emittype_t type;
-  int style;
-  vec3_t origin;
-  vec3_t intensity;
-  vec3_t normal;                                // for surfaces and spotlights
-  float stopdot;                               // for spotlights
-  float stopdot2;                              // for spotlights
+    struct directlight_s *next;
+    emittype_t type;
+    int style;
+    vec3_t origin;
+    vec3_t intensity;
+    vec3_t normal; // for surfaces and spotlights
+    float stopdot; // for spotlights
+    float stopdot2;// for spotlights
 
-  // 'Arghrad'-like features
-  vec_t fade;                                  // falloff scaling for linear and inverse square falloff 1.0 = normal, 0.5 = farther, 2.0 = shorter etc
-  unsigned char falloff;                               // falloff style 0 = default (inverse square), 1 = inverse falloff, 2 = inverse square (arghrad compat)
+    // 'Arghrad'-like features
+    vec_t fade;           // falloff scaling for linear and inverse square falloff 1.0 = normal, 0.5 = farther, 2.0 = shorter etc
+    unsigned char falloff;// falloff style 0 = default (inverse square), 1 = inverse falloff, 2 = inverse square (arghrad compat)
 
-  // -----------------------------------------------------------------------------------
-  // Changes by Adam Foster - afoster@compsoc.man.ac.uk
-  // Diffuse light_environment light colour
-  // Really horrible hack which probably won't work!
+    // -----------------------------------------------------------------------------------
+    // Changes by Adam Foster - afoster@compsoc.man.ac.uk
+    // Diffuse light_environment light colour
+    // Really horrible hack which probably won't work!
 #ifdef HLRAD_WHOME
-  vec3_t diffuse_intensity;
+    vec3_t diffuse_intensity;
 #endif
-  // -----------------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------------
 
 } directlight_t;
 
-#define TRANSFER_SCALE_VAL    (USHRT_MAX/4)
+#define TRANSFER_SCALE_VAL (USHRT_MAX / 4)
 
-#define    TRANSFER_SCALE          (1.0 / TRANSFER_SCALE_VAL)
-#define    INVERSE_TRANSFER_SCALE    (TRANSFER_SCALE_VAL)
-#define TRANSFER_SCALE_MAX    (TRANSFER_SCALE_VAL * 4)
+#define TRANSFER_SCALE (1.0 / TRANSFER_SCALE_VAL)
+#define INVERSE_TRANSFER_SCALE (TRANSFER_SCALE_VAL)
+#define TRANSFER_SCALE_MAX (TRANSFER_SCALE_VAL * 4)
 
 typedef struct {
-  unsigned size: 12;
-  unsigned index: 20;
+    unsigned size : 12;
+    unsigned index : 20;
 } transfer_index_t;
 
 typedef unsigned transfer_raw_index_t;
@@ -222,50 +220,50 @@ typedef rgb_transfer_t rgb_transfer_data_t;
 
 #define MAX_COMPRESSED_TRANSFER_INDEX_SIZE ((1 << 12) - 1)
 
-#define    MAX_PATCHES    (65535*4)
+#define MAX_PATCHES (65535 * 4)
 #define MAX_VISMATRIX_PATCHES 65535
 #define MAX_SPARSE_VISMATRIX_PATCHES MAX_PATCHES
 
 typedef enum {
-  ePatchFlagNull = 0,
-  ePatchFlagOutside = 1
+    ePatchFlagNull = 0,
+    ePatchFlagOutside = 1
 } ePatchFlags;
 
 typedef struct patch_s {
-  struct patch_s *next;                                  // next in face
-  vec3_t origin;                                // Center centroid of winding (cached info calculated from winding)
-  vec_t area;                                  // Surface area of this patch (cached info calculated from winding)
-  Winding *winding;                               // Winding (patches are triangles, so its easy)
-  vec_t scale;                                 // Texture scale for this face (blend of S and T scale)
-  vec_t chop;                                  // Texture chop for this face factoring in S and T scale
+    struct patch_s *next;// next in face
+    vec3_t origin;       // Center centroid of winding (cached info calculated from winding)
+    vec_t area;          // Surface area of this patch (cached info calculated from winding)
+    Winding *winding;    // Winding (patches are triangles, so its easy)
+    vec_t scale;         // Texture scale for this face (blend of S and T scale)
+    vec_t chop;          // Texture chop for this face factoring in S and T scale
 
-  unsigned iIndex;
-  unsigned iData;
+    unsigned iIndex;
+    unsigned iData;
 
-  transfer_index_t *tIndex;
-  transfer_data_t *tData;
+    transfer_index_t *tIndex;
+    transfer_data_t *tData;
 #ifdef HLRAD_HULLU
-  rgb_transfer_data_t *tRGBData;
+    rgb_transfer_data_t *tRGBData;
 #endif
 
-  int faceNumber;
-  ePatchFlags flags;
+    int faceNumber;
+    ePatchFlags flags;
 
 #ifdef ZHLT_TEXLIGHT
-  int totalstyle[MAXLIGHTMAPS];                //LRC - gives the styles for use by the new switchable totallight values
-  vec3_t totallight[MAXLIGHTMAPS];                // accumulated by radiosity does NOT include light accounted for by direct lighting
-  vec3_t directlight[MAXLIGHTMAPS];                // direct light only
-  int emitstyle;                               //LRC - for switchable texlights
-  vec3_t baselight;                             // emissivity only, uses emitstyle
-  vec3_t samplelight[MAXLIGHTMAPS];
-  int samples[MAXLIGHTMAPS];                 // for averaging direct light
+    int totalstyle[MAXLIGHTMAPS];    //LRC - gives the styles for use by the new switchable totallight values
+    vec3_t totallight[MAXLIGHTMAPS]; // accumulated by radiosity does NOT include light accounted for by direct lighting
+    vec3_t directlight[MAXLIGHTMAPS];// direct light only
+    int emitstyle;                   //LRC - for switchable texlights
+    vec3_t baselight;                // emissivity only, uses emitstyle
+    vec3_t samplelight[MAXLIGHTMAPS];
+    int samples[MAXLIGHTMAPS];// for averaging direct light
 #else
-  vec3_t          totallight;                            // accumulated by radiosity does NOT include light accounted for by direct lighting
-  vec3_t          baselight;                             // emissivity only
-  vec3_t          directlight;                           // direct light value
+    vec3_t totallight; // accumulated by radiosity does NOT include light accounted for by direct lighting
+    vec3_t baselight;  // emissivity only
+    vec3_t directlight;// direct light value
 
-  vec3_t          samplelight;
-  int             samples;                               // for averaging direct light
+    vec3_t samplelight;
+    int samples;// for averaging direct light
 #endif
 } patch_t;
 
@@ -275,10 +273,10 @@ vec3_t *GetTotalLight(patch_t *patch, int style);
 #endif
 
 typedef struct {
-  dface_t *faces[2];
-  vec3_t interface_normal;
-  vec_t cos_normals_angle;
-  bool coplanar;
+    dface_t *faces[2];
+    vec3_t interface_normal;
+    vec_t cos_normals_angle;
+    bool coplanar;
 } edgeshare_t;
 
 extern edgeshare_t g_edgeshare[MAX_MAP_EDGES];
@@ -288,14 +286,13 @@ extern edgeshare_t g_edgeshare[MAX_MAP_EDGES];
 //
 
 typedef struct lerprect_s {
-  dplane_t plane; // all walls will be perpindicular to face normal in some direction
-  vec3_t vertex[4];
-}
-    lerpWall_t;
+    dplane_t plane;// all walls will be perpindicular to face normal in some direction
+    vec3_t vertex[4];
+} lerpWall_t;
 
 typedef struct lerpdist_s {
-  vec_t dist;
-  unsigned patch;
+    vec_t dist;
+    unsigned patch;
 } lerpDist_t;
 
 // Valve's default was 2048 originally.
@@ -303,42 +300,40 @@ typedef struct lerpdist_s {
 // 2048 : roughly 17.5Mb
 // 3072 : roughly 35Mb
 // 4096 : roughly 70Mb
-#define    DEFAULT_MAX_LERP_POINTS             512
-#define DEFAULT_MAX_LERP_WALLS           128
+#define DEFAULT_MAX_LERP_POINTS 512
+#define DEFAULT_MAX_LERP_WALLS 128
 
 typedef struct {
-  unsigned maxpoints;
-  unsigned numpoints;
+    unsigned maxpoints;
+    unsigned numpoints;
 
-  unsigned maxwalls;
-  unsigned numwalls;
-  patch_t **points;    // maxpoints
-  lerpDist_t *dists;     // numpoints after points is populated
-  lerpWall_t *walls;     // maxwalls
+    unsigned maxwalls;
+    unsigned numwalls;
+    patch_t **points; // maxpoints
+    lerpDist_t *dists;// numpoints after points is populated
+    lerpWall_t *walls;// maxwalls
 
-  unsigned facenum;
-  const dface_t *face;
-  const dplane_t *plane;
-}
-    lerpTriangulation_t;
+    unsigned facenum;
+    const dface_t *face;
+    const dplane_t *plane;
+} lerpTriangulation_t;
 
 // These are bitflags for lighting adjustments for special cases
 typedef enum {
-  eModelLightmodeNull = 0,
-  eModelLightmodeEmbedded = 0x01,
-  eModelLightmodeOpaque = 0x02,
-  eModelLightmodeConcave = 0x04
-}
-    eModelLightmodes;
+    eModelLightmodeNull = 0,
+    eModelLightmodeEmbedded = 0x01,
+    eModelLightmodeOpaque = 0x02,
+    eModelLightmodeConcave = 0x04
+} eModelLightmodes;
 
 typedef struct {
-  Winding *winding;
-  dplane_t plane;
-  unsigned facenum;
+    Winding *winding;
+    dplane_t plane;
+    unsigned facenum;
 
 #ifdef HLRAD_HULLU
-  vec3_t transparency_scale;
-  bool transparency;
+    vec3_t transparency_scale;
+    bool transparency;
 #endif
 
 } opaqueList_t;
@@ -351,7 +346,7 @@ typedef struct {
 
 extern patch_t *g_face_patches[MAX_MAP_FACES];
 extern entity_t *g_face_entity[MAX_MAP_FACES];
-extern vec3_t g_face_offset[MAX_MAP_FACES];              // for models with origins
+extern vec3_t g_face_offset[MAX_MAP_FACES];// for models with origins
 extern eModelLightmodes g_face_lightmode[MAX_MAP_FACES];
 extern vec3_t g_face_centroids[MAX_MAP_EDGES];
 extern patch_t g_patches[MAX_PATCHES];
@@ -382,14 +377,14 @@ extern int g_falloff;
 extern bool g_incremental;
 extern bool g_circus;
 extern bool g_sky_lighting_fix;
-extern vec_t g_chop;    // Chop value for normal textures
-extern vec_t g_texchop; // Chop value for texture lights
+extern vec_t g_chop;   // Chop value for normal textures
+extern vec_t g_texchop;// Chop value for texture lights
 extern opaqueList_t *g_opaque_face_list;
 extern unsigned g_opaque_face_count;
-extern unsigned g_max_opaque_face_count;    // Current array maximum (used for reallocs)
+extern unsigned g_max_opaque_face_count;// Current array maximum (used for reallocs)
 
-#ifdef ZHLT_PROGRESSFILE // AJM
-extern char*           g_progressfile ;
+#ifdef ZHLT_PROGRESSFILE// AJM
+extern char *g_progressfile;
 #endif
 
 // ------------------------------------------------------------------------
@@ -429,7 +424,7 @@ extern void GetPhongNormal(int facenum, vec3_t spot, vec3_t phongnormal);
 #ifdef HLRAD_HULLU
 typedef bool (*funcCheckVisBit)(unsigned, unsigned, vec3_t &);
 #else
-typedef bool (*funcCheckVisBit) (unsigned, unsigned);
+typedef bool (*funcCheckVisBit)(unsigned, unsigned);
 #endif
 extern funcCheckVisBit g_CheckVisBit;
 
@@ -463,9 +458,9 @@ extern void MakeRGBScales(int threadnum);
 
 // lerp.c
 #ifdef ZHLT_TEXLIGHT
-extern void SampleTriangulation(const lerpTriangulation_t *const trian, vec3_t point, vec3_t result, int style); //LRC
+extern void SampleTriangulation(const lerpTriangulation_t *const trian, vec3_t point, vec3_t result, int style);//LRC
 #else
-extern void     SampleTriangulation(const lerpTriangulation_t* const trian, vec3_t point, vec3_t result);
+extern void SampleTriangulation(const lerpTriangulation_t *const trian, vec3_t point, vec3_t result);
 #endif
 extern void DestroyTriangulation(lerpTriangulation_t *trian);
 extern lerpTriangulation_t *CreateTriangulation(unsigned int facenum);
@@ -475,7 +470,7 @@ extern void FreeTriangulation(lerpTriangulation_t *trian);
 #ifdef HLRAD_HULLU
 extern bool TestSegmentAgainstOpaqueList(const vec_t *p1, const vec_t *p2, vec3_t &scaleout);
 #else
-extern bool     TestSegmentAgainstOpaqueList(const vec_t* p1, const vec_t* p2);
+extern bool TestSegmentAgainstOpaqueList(const vec_t *p1, const vec_t *p2);
 #endif
 extern bool intersect_line_plane(const dplane_t *const plane, const vec_t *const p1, const vec_t *const p2, vec3_t point);
 extern bool intersect_linesegment_plane(const dplane_t *const plane, const vec_t *const p1, const vec_t *const p2, vec3_t point);
@@ -486,4 +481,4 @@ extern bool point_in_tri(const vec3_t point, const dplane_t *const plane, const 
 extern void ProjectionPoint(const vec_t *const v, const vec_t *const p, vec_t *rval);
 extern void SnapToPlane(const dplane_t *const plane, vec_t *const point, vec_t offset);
 
-#endif //HLRAD_H__
+#endif//HLRAD_H__

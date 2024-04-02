@@ -5,16 +5,15 @@
 #pragma once
 #endif
 
-#define    MAX_THREADS    64
+#define MAX_THREADS 64
 
 typedef enum {
-  eThreadPriorityLow = -1,
-  eThreadPriorityNormal,
-  eThreadPriorityHigh
-}
-    q_threadpriority;
+    eThreadPriorityLow = -1,
+    eThreadPriorityNormal,
+    eThreadPriorityHigh
+} q_threadpriority;
 
-typedef void    (*q_threadfunction)(int);
+typedef void (*q_threadfunction)(int);
 
 #ifdef SYSTEM_WIN32
 #define DEFAULT_NUMTHREADS -1
@@ -38,11 +37,19 @@ extern void RunThreadsOnIndividual(int workcnt, bool showpacifier, q_threadfunct
 extern void RunThreadsOn(int workcnt, bool showpacifier, q_threadfunction);
 
 #ifdef ZHLT_NETVIS
-extern void     threads_InitCrit();
-extern void     threads_UninitCrit();
+extern void threads_InitCrit();
+extern void threads_UninitCrit();
 #endif
 
-#define NamedRunThreadsOn(n, p, f) { Log("%s\n", #f ":"); RunThreadsOn(n,p,f); }
-#define NamedRunThreadsOnIndividual(n, p, f) { Log("%s\n", #f ":"); RunThreadsOnIndividual(n,p,f); }
+#define NamedRunThreadsOn(n, p, f) \
+    {                              \
+        Log("%s\n", #f ":");       \
+        RunThreadsOn(n, p, f);     \
+    }
+#define NamedRunThreadsOnIndividual(n, p, f) \
+    {                                        \
+        Log("%s\n", #f ":");                 \
+        RunThreadsOnIndividual(n, p, f);     \
+    }
 
-#endif //**/ THREADS_H__
+#endif//**/ THREADS_H__

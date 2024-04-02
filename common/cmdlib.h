@@ -19,8 +19,8 @@
 #define alloca __builtin_alloca
 #endif
 
-#include "win32fix.h"
 #include "mathtypes.h"
+#include "win32fix.h"
 
 //#define MODIFICATIONS_STRING "Submit detailed bug reports to (zoner@gearboxsoftware.com)\n"
 #define MODIFICATIONS_STRING "Submit detailed bug reports to: merlinis@bigpond.net.au\nAnd macOS relating issues to: lindenberg.research@gmail.com"
@@ -39,15 +39,15 @@
 
 // ZHLT_* features are spread across more than one tool. Hence, changing
 //      one of these settings probably means recompiling the whole set
-#define ZHLT_INFO_COMPILE_PARAMETERS        // ALL TOOLS
-#define ZHLT_NULLTEX                        // HLCSG, HLBSP
-#define ZHLT_TEXLIGHT                       // HLCSG, HLRAD - triggerable texlights by LRC
-#define ZHLT_GENERAL                        // ALL TOOLS - general changes
-//#define ZHLT_DETAIL                         // HLCSG, HLBSP - detail brushes    
+#define ZHLT_INFO_COMPILE_PARAMETERS// ALL TOOLS
+#define ZHLT_NULLTEX                // HLCSG, HLBSP
+#define ZHLT_TEXLIGHT               // HLCSG, HLRAD - triggerable texlights by LRC
+#define ZHLT_GENERAL                // ALL TOOLS - general changes
+//#define ZHLT_DETAIL                         // HLCSG, HLBSP - detail brushes
 //#define ZHLT_PROGRESSFILE                   // ALL TOOLS - estimate progress reporting to -progressfile
 //#define ZHLT_NSBOB
 
-#define COMMON_HULLU // winding optimisations by hullu
+#define COMMON_HULLU// winding optimisations by hullu
 
 // tool specific settings below only mean a recompile of the tool affected
 #define HLCSG_CLIPECONOMY
@@ -59,30 +59,30 @@
 #define HLVIS_MAXDIST
 
 #define HLRAD_INFO_TEXLIGHTS
-#define HLRAD_WHOME // encompases all of Adam Foster's changes
-#define HLRAD_HULLU // semi-opaque brush based entities and effects by hullu
+#define HLRAD_WHOME// encompases all of Adam Foster's changes
+#define HLRAD_HULLU// semi-opaque brush based entities and effects by hullu
 
 //=====================================================================
 
 #ifdef SYSTEM_WIN32
-#pragma warning(disable: 4127)                      // conditional expression is constant
-#pragma warning(disable: 4115)                      // named type definition in parentheses
-#pragma warning(disable: 4244)                      // conversion from 'type' to type', possible loss of data
+#pragma warning(disable : 4127)// conditional expression is constant
+#pragma warning(disable : 4115)// named type definition in parentheses
+#pragma warning(disable : 4244)// conversion from 'type' to type', possible loss of data
 // AJM
-#pragma warning(disable: 4786)                      // identifier was truncated to '255' characters in the browser information
-#pragma warning(disable: 4305)                      // truncation from 'const double' to 'float'
-#pragma warning(disable: 4800)                     // forcing value to bool 'true' or 'false' (performance warning)
+#pragma warning(disable : 4786)// identifier was truncated to '255' characters in the browser information
+#pragma warning(disable : 4305)// truncation from 'const double' to 'float'
+#pragma warning(disable : 4800)// forcing value to bool 'true' or 'false' (performance warning)
 #endif
 
 #ifdef STDC_HEADERS
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <errno.h>
 #include <ctype.h>
-#include <time.h>
-#include <stdarg.h>
+#include <errno.h>
 #include <limits.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 #endif
 
 #ifdef HAVE_SYS_TIME_H
@@ -97,17 +97,17 @@
 #endif
 
 #ifdef SYSTEM_WIN32
-#define SYSTEM_SLASH_CHAR  '\\'
-#define SYSTEM_SLASH_STR   "\\"
+#define SYSTEM_SLASH_CHAR '\\'
+#define SYSTEM_SLASH_STR "\\"
 #endif
 #ifdef SYSTEM_POSIX
-#define SYSTEM_SLASH_CHAR  '/'
-#define SYSTEM_SLASH_STR   "/"
+#define SYSTEM_SLASH_CHAR '/'
+#define SYSTEM_SLASH_STR "/"
 #endif
 
 // the dec offsetof macro doesn't work very well...
-#define myoffsetof(type, identifier) ((size_t)&((type*)0)->identifier)
-#define sizeofElement(type, identifier) (sizeof((type*)0)->identifier)
+#define myoffsetof(type, identifier) ((size_t) & ((type *) 0)->identifier)
+#define sizeofElement(type, identifier) (sizeof((type *) 0)->identifier)
 
 #ifdef SYSTEM_POSIX
 extern char *strupr(char *string);
@@ -142,4 +142,4 @@ extern int LittleLong(int l);
 extern float BigFloat(float l);
 extern float LittleFloat(float l);
 
-#endif //CMDLIB_H__
+#endif//CMDLIB_H__

@@ -9,15 +9,14 @@
 #include "messages.h"
 
 typedef enum {
-  DEVELOPER_LEVEL_ALWAYS,
-  DEVELOPER_LEVEL_ERROR,
-  DEVELOPER_LEVEL_WARNING,
-  DEVELOPER_LEVEL_MESSAGE,
-  DEVELOPER_LEVEL_FLUFF,
-  DEVELOPER_LEVEL_SPAM,
-  DEVELOPER_LEVEL_MEGASPAM
-}
-    developer_level_t;
+    DEVELOPER_LEVEL_ALWAYS,
+    DEVELOPER_LEVEL_ERROR,
+    DEVELOPER_LEVEL_WARNING,
+    DEVELOPER_LEVEL_MESSAGE,
+    DEVELOPER_LEVEL_FLUFF,
+    DEVELOPER_LEVEL_SPAM,
+    DEVELOPER_LEVEL_MEGASPAM
+} developer_level_t;
 
 //
 // log.c globals
@@ -26,15 +25,15 @@ typedef enum {
 extern char *g_Program;
 extern char g_Mapname[_MAX_PATH];
 
-#define DEFAULT_DEVELOPER   DEVELOPER_LEVEL_ALWAYS
-#define DEFAULT_VERBOSE     false
-#define DEFAULT_LOG         true
+#define DEFAULT_DEVELOPER DEVELOPER_LEVEL_ALWAYS
+#define DEFAULT_VERBOSE false
+#define DEFAULT_LOG true
 
 extern developer_level_t g_developer;
 extern bool g_verbose;
 extern bool g_log;
-extern unsigned long g_clientid;                           // Client id of this program
-extern unsigned long g_nextclientid;                       // Client id of next client to spawn from this server
+extern unsigned long g_clientid;    // Client id of this program
+extern unsigned long g_nextclientid;// Client id of next client to spawn from this server
 
 //
 // log.c Functions
@@ -76,4 +75,4 @@ extern void LogTimeElapsed(float elapsed_time);
 // Should be in hlassert.h, but well so what
 extern void hlassume(bool exp, assume_msgs msgid);
 
-#endif // Should be in hlassert.h, but well so what LOG_H__
+#endif// Should be in hlassert.h, but well so what LOG_H__

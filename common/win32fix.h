@@ -10,39 +10,39 @@
 /////////////////////////////
 #ifdef SYSTEM_WIN32
 
-#define alloca      _alloca
+#define alloca _alloca
 
 #define strncasecmp strnicmp
-#define strcasecmp  stricmp
+#define strcasecmp stricmp
 
-#define snprintf  _snprintf
+#define snprintf _snprintf
 #define vsnprintf _vsnprintf
 
-#define finite    _finite
+#define finite _finite
 
-#define rotl      _rotl
-#define rotr      _rotr
+#define rotl _rotl
+#define rotr _rotr
 
 #undef STDCALL
 #undef FASTCALL
 #undef CDECL
 
-#define STDCALL     __stdcall
-#define FASTCALL    __fastcall
-#define CDECL       __cdecl
+#define STDCALL __stdcall
+#define FASTCALL __fastcall
+#define CDECL __cdecl
 
-#define INLINE      __inline
+#define INLINE __inline
 
 #endif
 /////////////////////////////
 
 /////////////////////////////
 #ifdef SYSTEM_POSIX
-#define _MAX_PATH  4096
+#define _MAX_PATH 4096
 #define _MAX_DRIVE 4096
-#define _MAX_DIR   4096
+#define _MAX_DIR 4096
 #define _MAX_FNAME 4096
-#define _MAX_EXT   4096
+#define _MAX_EXT 4096
 
 #define STDCALL
 #define FASTCALL
@@ -53,4 +53,4 @@
 #endif
 /////////////////////////////
 
-#endif ///////////////////////////// WIN32FIX_H__
+#endif///////////////////////////// WIN32FIX_H__
