@@ -543,7 +543,7 @@ int TexinfoForBrushTexture(const plane_t *const plane, brush_texture_t *bt, cons
 
     // Very Sleazy Hack 104 - since the tx.miptex index will be bogus after we sort the miptex array later
     // Put the string name of the miptex in this "index" until after we are done sorting it in WriteMiptex().
-    tx.miptex = ((long) strdup(bt->name));
+    tx.miptex = texmap64_store(strdup(bt->name));
 
     // set the special flag
     if (bt->name[0] == '*' || !strncasecmp(bt->name, "sky", 3) || !strncasecmp(bt->name, "clip", 4) || !strncasecmp(bt->name, "origin", 6)
@@ -640,9 +640,6 @@ int TexinfoForBrushTexture(const plane_t *const plane, brush_texture_t *bt, cons
     ThreadLock();
     tc = g_texinfo;
     for (i = 0; i < g_numtexinfo; i++, tc++) {
-
-        printf("<tc %d %p>\n", tc->miptex, texmap64_retrieve((tc->miptex)));
-        printf("<tx %d %p>\n", tx.miptex, texmap64_retrieve((tx.miptex)));
         // Sleazy hack 104, Pt 3 - Use strcmp on names to avoid dups
         if (strcmp(texmap64_retrieve((tc->miptex)), texmap64_retrieve((tx.miptex))) != 0) {
             continue;
