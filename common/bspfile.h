@@ -1,10 +1,15 @@
-#ifndef BSPFILE_H__
-#define BSPFILE_H__
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif
 
+#include "mathlib.h"
+#include "mathtypes.h"
+#include "cmdlib.h"
+#include "filelib.h"
+#include "messages.h"
+#include "hlassert.h"
+#include "log.h"
+#include "mathlib.h"
+#include "scriplib.h"
+#include "blockmem.h"
 // upper design bounds
 
 #define MAX_MAP_HULLS 4
@@ -359,5 +364,3 @@ extern void dtexdata_init();
 extern void CDECL dtexdata_free();
 
 extern char *GetTextureByNumber(int texturenumber);
-
-#endif//BSPFILE_H__

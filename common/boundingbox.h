@@ -4,13 +4,10 @@
 
 // AJM:
 #pragma warning(disable : 4305)// truncation from 'const double' to 'float'
-
-#ifndef BOUNDINGBOX_H__
-#define BOUNDINGBOX_H__
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif
+
+#include "mathlib.h"
+#include "mathtypes.h"
 
 class BoundingBox {
 public:
@@ -121,5 +118,3 @@ public:
     vec3_t m_Mins;
     vec3_t m_Maxs;
 };
-
-#endif//BOUNDINGBOX_H__
