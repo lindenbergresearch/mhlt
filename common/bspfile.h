@@ -18,7 +18,7 @@
 #define MAX_MAP_MODELS 400
 // variable, but 400 brush entities is very stressful on the engine and network code as it is
 
-#define MAX_MAP_BRUSHES 8192
+#define MAX_MAP_BRUSHES 65535
 // arbitrary, but large numbers of brushes generally require more lightmap's than the compiler can handle
 
 #define MAX_ENGINE_ENTITIES 1024
